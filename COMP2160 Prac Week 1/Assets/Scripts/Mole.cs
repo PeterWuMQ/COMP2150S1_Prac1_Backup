@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Collider))]
 
 public class Mole : MonoBehaviour
 {
     public Color InitialColor = Color.red;
     public Color ChangedColor = Color.black;
+    public float Timer = 5.0f;
+    private float PrivateTimer;
     SpriteRenderer sprite;
 
     // Start is called before the first frame update
@@ -21,11 +22,16 @@ public class Mole : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        PrivateTimer -= Time.deltaTime;
+        if(PrivateTimer < 0) 
+        {
+            sprite.color = InitialColor;
+        }
     }
 
     void OnMouseDown() 
     {
-        sprite.color = ChangedColor;
+        PrivateTimer = Timer;
+        sprite.color = ChangedColor; 
     }
 }
