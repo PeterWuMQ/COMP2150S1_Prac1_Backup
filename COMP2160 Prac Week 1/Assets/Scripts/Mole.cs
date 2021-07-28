@@ -6,32 +6,71 @@ using UnityEngine;
 
 public class Mole : MonoBehaviour
 {
-    public Color InitialColor = Color.red;
-    public Color ChangedColor = Color.black;
-    public float Timer = 5.0f;
-    private float PrivateTimer;
+    public Color DownColor = Color.black;
+    public Color UpColor = Color.white;
+    public Color MissedColor = Color.red;
+    public float MissedTimer = 5.0f;
+    public float ResetTimer = 3.0f;
+    public float MinRandom = 1.0f;
+    public float MaxRandom = 7.0f;
+    private float UpTimer;
+    private float PrivateResetTimer;
+    private float PrivateMissedTimer;
     SpriteRenderer sprite;
 
     // Start is called before the first frame update
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
-        sprite.color = InitialColor;
+        sprite.color = DownColor;
+        UpTimer = Random.Range(MinRandom, MaxRandom);
+        PrivateResetTimer = ResetTimer;
+        PrivateMissedTimer = MissedTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
-        PrivateTimer -= Time.deltaTime;
-        if(PrivateTimer < 0) 
+        if(sprite.color == DownColor)
         {
-            sprite.color = InitialColor;
+            UpTimer -= Time.deltaTime;
+        }
+
+        if(sprite.color == UpColor)
+        {
+            PrivateMissedTimer -= Time.deltaTime;
+        }
+
+        if(sprite.color == MissedColor)
+        {
+            PrivateResetTimer -= Time.deltaTime;
+        }
+        
+        if(UpTimer < 0)
+        {
+            sprite.color = UpColor;
+            UpTimer = Random.Range(MinRandom, MaxRandom);
+        }
+
+        if(PrivateMissedTimer < 0)
+        {
+            sprite.color = MissedColor;
+            PrivateMissedTimer = MissedTimer;
+        }
+
+        if(PrivateResetTimer < 0)
+        {
+            sprite.color = DownColor;
+            PrivateResetTimer = ResetTimer;
         }
     }
 
     void OnMouseDown() 
     {
-        PrivateTimer = Timer;
-        sprite.color = ChangedColor; 
+        if(sprite.color == UpColor)
+        {
+            sprite.color = DownColor; 
+        }
+        
     }
 }
