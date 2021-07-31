@@ -31,46 +31,44 @@ public class Mole : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(sprite.color == DownColor)
+        if (sprite.color == DownColor)
         {
             UpTimer -= Time.deltaTime;
+            if (UpTimer < 0)
+            {
+                sprite.color = UpColor;
+                UpTimer = Random.Range(MinRandom, MaxRandom);
+            }
         }
 
-        if(sprite.color == UpColor)
+        if (sprite.color == UpColor)
         {
             PrivateMissedTimer -= Time.deltaTime;
+            if (PrivateMissedTimer < 0)
+            {
+                sprite.color = MissedColor;
+                PrivateMissedTimer = MissedTimer;
+            }
         }
 
-        if(sprite.color == MissedColor)
+        if (sprite.color == MissedColor)
         {
             PrivateResetTimer -= Time.deltaTime;
-        }
-        
-        if(UpTimer < 0)
-        {
-            sprite.color = UpColor;
-            UpTimer = Random.Range(MinRandom, MaxRandom);
-        }
-
-        if(PrivateMissedTimer < 0)
-        {
-            sprite.color = MissedColor;
-            PrivateMissedTimer = MissedTimer;
+            if (PrivateResetTimer < 0)
+            {
+                sprite.color = DownColor;
+                PrivateResetTimer = ResetTimer;
+            }
         }
 
-        if(PrivateResetTimer < 0)
-        {
-            sprite.color = DownColor;
-            PrivateResetTimer = ResetTimer;
-        }
     }
 
-    void OnMouseDown() 
+    void OnMouseDown()
     {
-        if(sprite.color == UpColor)
+        if (sprite.color == UpColor)
         {
-            sprite.color = DownColor; 
+            sprite.color = DownColor;
         }
-        
+
     }
 }
